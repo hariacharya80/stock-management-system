@@ -37,12 +37,24 @@ const loginUser = async (req, res) => {
     //compare the password of user
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ msg: "Wrong password, please try again." });
+      return res
+        .status(401)
+        .json({ reason: "Wrong password, please try again." });
     }
 
     //sign a token
     const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
+    //update the user token in DB
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { email },
+      {
+        authToken: token,
+      }
+    );
+    if (!updatedToken) {
+      return res.status(503).json({ reason: "Server is currently busy." });
+    }
     //set a header
     res.cookie("auth", token, {
       secure: true,
@@ -57,6 +69,9 @@ const loginUser = async (req, res) => {
     });
   } catch (e) {
     console.log("🔴  : ERROR WAS ENCOUNTERED!!" + e);
+    return res
+      .status(500)
+      .json({ reason: "An unknown error while loggin in." });
   }
 };
 
