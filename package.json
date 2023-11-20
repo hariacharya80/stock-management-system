@@ -4,7 +4,7 @@
   "description": "Backend for simple stock management system created on MERN stack",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon main"
   },
   "repository": {
     "type": "git",
@@ -31,8 +31,13 @@
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "log-update": "^6.0.0",
     "mongoose": "^8.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
